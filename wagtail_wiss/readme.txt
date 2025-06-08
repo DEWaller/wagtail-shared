@@ -1,0 +1,1 @@
+pip install -e ../../../../wagtail-shared/wagtail_wiss
