@@ -7,11 +7,12 @@ from django.db import transaction
 from django.utils import timezone
 from datetime import datetime, time, timedelta
 
-from wagtail.models import Site, Orderable, TranslatableMixin
+from wagtail.models import Orderable, TranslatableMixin
 from wagtail.admin.panels import FieldPanel
 from wagtail.search import index
 from wagtail_localize.fields import TranslatableField
 from wagtail.fields import RichTextField
+from wagtail.documents import get_document_model
 
 from modelcluster.models import ClusterableModel, ParentalKey
 
@@ -23,7 +24,7 @@ class VideoHeader(TranslatableMixin, models.Model):
 
     text = RichTextField(blank=True, null=True)
     video = models.ForeignKey(
-        settings.WAGTAILDOCS_DOCUMENT_MODEL,
+        get_document_model(),
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
@@ -31,7 +32,7 @@ class VideoHeader(TranslatableMixin, models.Model):
         help_text="Please upload an .mp4 file only.",
     )
     video_poster = models.ForeignKey(
-        settings.WAGTAILIMAGES_IMAGE_MODEL,
+        'wagtailimages.Image',
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
@@ -190,7 +191,7 @@ class GalleryItem(Orderable):
     )
     # image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="+")
     image = models.ForeignKey(
-        settings.WAGTAILIMAGES_IMAGE_MODEL,
+        'wagtailimages.Image',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
