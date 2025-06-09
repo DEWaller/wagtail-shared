@@ -1,0 +1,147 @@
+{% load static wagtailcore_tags wagtailimages_tags filters %}
+
+<div class="container events">
+    <div class="map-container" id="map_container">
+        <div>
+            <div id="events-map" style="width:100%; height:100%;"></div>
+        </div>
+        <div>
+            <form method="GET" action="#map_container">
+                <div class="dates">
+                    <div class="start-date">
+                        <label for="start_date">{{ labels.start_date }}</label>
+                        <input type="date" class="form-control" id="start_date" name="start_date"
+                            value="{{ start_date|date:'Y-m-d' }}">
+                    </div>
+                    <div class="end-date">
+                        <label for="end_date">{{ labels.end_date }}</label>
+                        <input type="date" class="form-control" id="end_date" name="end_date"
+                            value="{{ end_date|date:'Y-m-d' }}">
+                    </div>
+                </div>
+                <div class="areas">
+                    <!-- <div><label for="areas"></label></div> -->
+                    <div id="areas" class="checkbox-grid">
+                        {% for area in areas %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="areas" id="area-{{ area.id }}"
+                                value="{{ area.id }}" {% if area in selected_areas %}checked{% endif %}>
+                            <label class="form-check-label" for="area-{{ area.id }}">
+                                {{ area.name }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <button type="submit" class="form-control">{{ labels.filter}}</button>
+            </form>
+        </div>
+    </div>
+    <!-- Filter Form -->
+
+    <div>
+        <!-- Display Filtered Events -->
+        <div id="pagination-anchor"></div>
+    
+        {% include 'pagination/includes/_pagination.html' with items=events %}
+        <div class="event-list">
+
+            {% for event in events %}
+            <div class="event">
+
+                {% if event.slug %}
+                <h2><a href="{{ page.url }}{{ event.slug }}/">{{ event.title }}</a></h2>
+                {% else %}
+                <h2>{{ event.event_title }}</h2>
+                {% endif %}
+                
+                {% if event.image %}
+                <div class="event-image">
+                    {% image event.image fill-300x200 %}
+                </div>
+                {% endif %}
+                {% if event.description %}
+                <p>{{ event.description|richtext }}</p>
+                {% endif %}
+
+                {% if event.location %}
+                <p><strong>{{ event.location }}</strong></p>
+                {% endif %}
+                {% if event.areas %}
+                <p><strong>{{ labels.areas }}:</strong>
+                    {% for area in event.areas.all %}
+                    {{ area.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+                {% endif %}
+                {% if event.date_instances %}
+                <p><strong>{{ labels.upcoming_dates }}:</strong>
+                    {% for instance in event.date_instances.all %}
+                    {{ instance.date|date:"F d, Y" }}{% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                    {{ labels.no_upcoming_dates}}
+                    {% endfor %}
+                </p>
+                <p>📍<a href="https://www.google.com/maps/place/{{event.map_lat}},{{event.map_lng}}/@{{event.map_lat}},{{event.map_lng}},13z"
+                        target="_blank">{{ labels.view_on_google_maps }}</a></p>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p>{{ labels.no_events_match_your_filters }}</p>
+            {% endfor %}
+        </div>
+        {% include 'pagination/includes/_pagination.html' with items=events %}
+        <script>
+            // Init map centered on some default location and zoom level
+            const defaultLat = {{ GEO_WIDGET_DEFAULT_LOCATION.lat }};
+            const defaultLng = {{ GEO_WIDGET_DEFAULT_LOCATION.lng }};
+            const defaultZoom = {{ GEO_WIDGET_ZOOM }};
+
+            const map = L.map('events-map', {
+                center: [defaultLat, defaultLng],
+                zoom: defaultZoom,
+                zoomControl: true,          // shows the zoom +/- buttons
+                scrollWheelZoom: false,     // disables zooming with mouse wheel
+                dragging: true,             // allows dragging the map
+                doubleClickZoom: false,     // disable zoom on double click
+                boxZoom: true,              // allow zooming with shift+drag
+                keyboard: true,             // enable keyboard nav
+            });
+
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            const events = {{ map_events|safe }};
+            const markers = [];
+
+            events.forEach(event => {
+                const marker = L.marker([event.lat, event.lng]).addTo(map);
+                const popupContent = `
+                <div class="event-popup">
+                    <h3><a href="${event.url}">${event.title}</a></h3>
+                    <p>${event.description ? event.description : ''}</p>
+                    <p>📍<a href="https://www.google.com/maps/place/${event.lat},${event.lng}/@${event.lat},${event.lng},13z" target="_blank">{{ labels.view_on_google_maps }}</a></p>                
+                    </div>
+                `;
+                marker.bindPopup(popupContent);
+                markers.push(marker);
+            });
+
+            if (markers.length > 0) {
+                const group = L.featureGroup(markers);
+                map.fitBounds(group.getBounds(), { padding: [30, 30] });
+            }
+
+            if (markers.length === 1) {
+                map.setView(markers[0].getLatLng(), 10); // Adjust zoom level (e.g., 12) as needed
+            } else if (markers.length > 1) {
+                const group = L.featureGroup(markers);
+                map.fitBounds(group.getBounds(), { padding: [30, 30] });
+            }
+
+
+        </script>
+    </div>
+</div>
