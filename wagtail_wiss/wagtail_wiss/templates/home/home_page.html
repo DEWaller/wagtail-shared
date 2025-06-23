@@ -11,9 +11,12 @@
 
 {% block content %}
   {% block header %}
-    {% include 'home/includes/header.html' %}
+    {% include 'home/includes/_header.html' %}
   {% endblock %}
   {% block main %}
+
+  {% include 'home/includes/_features_hanging_icons.html' %}
+  
     <main id="main">
       <div class="container">
         <div class="title">
