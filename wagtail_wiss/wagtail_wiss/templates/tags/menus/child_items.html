@@ -1,0 +1,4 @@
+{% load wagtailcore_tags %}
+{% for item in items %}
+    {% include 'tags/menus/child_item.html' with item=item %}
+{% endfor %}

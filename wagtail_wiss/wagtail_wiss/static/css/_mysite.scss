@@ -4,19 +4,22 @@
 // Instead, copy the variable here and modify it
 // See https://getbootstrap.com/docs/5.3/customize/sass/ for further information
 
-// For example, to change the default body background and text color, you would add the following to this file:
-$body-bg: hsl(0, 0%, 100%);
-$body-color: hsl(199, 49%, 12%);
+$primary: #007bff;
+$secondary: #6c757d;
 
-@import "../scss/bootstrap";
+
+@import "../boostrap/bootstrap.scss";
 
 // Now we can add our custom styles that aren't part of Bootstrap
 // We can keep them separate for ease of maintenance
 // As these are partial files we prefix them with an underscore so the compiler knows
 // they are not standalone files and can use mixins etc
 
-// @import "../css/components/_mixins.scss";
-// @import "../css/components/_base.scss";
+@import "../css/components/_mixins.scss";
+@import "../css/_utilities.scss";
+@import "../css/components/_base.scss";
+@import "../css/components/_header.scss";
+
 // @import "../css/components/_handson_table.scss";
 // @import "../css/components/_skip-to-main-content-link.scss";
 // @import "../css/components/_accessible-colour-palette.scss";

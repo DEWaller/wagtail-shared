@@ -1,12 +1,38 @@
-{% extends "base.html" %}
-{% load static wagtailcore_tags wagtailimages_tags %}
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags wiss_tags %}
 
+{% block body_class %}
+  home-page
+{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/themes/home-page.min.css' %}">
-{% endblock extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/themes/home-page/home-page.min.css' %}" />
+{% endblock %}
 
 {% block content %}
-    <h1>{{ page.title }}</h1>
-    <p>{{ page.intro }}</p>
+  {% block header %}
+    {% include 'home/includes/header.html' %}
+  {% endblock %}
+  {% block main %}
+    <main id="main">
+      <div class="container">
+        <div class="title">
+          <h1 class="visuallyhidden">{{ page.title }}</h1>
+          <div class="single-column-block header-h1">
+            <h2>{{ page.header_h1|linebreak_span|safe }}</h2>
+          </div>
+        </div>
+        {% for block in page.body %}
+          {% if block.block_type == 'content_grid' %}
+            {% comment %} {% include 'home/includes/_content_grid.html' with block=block class='home-page' %} {% endcomment %}
+          {% else %}
+            {% include_block block %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </main>
+  {% endblock %}
+  {% block footer %}
+    {% include 'home/includes/_footer.html' %}
+  {% endblock %}
 {% endblock %}

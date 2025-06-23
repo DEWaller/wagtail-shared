@@ -1,0 +1,37 @@
+.table {
+  table {
+    td {
+      vertical-align: top;
+    }
+  }
+}
+
+/* Horizontal alignment */
+.htLeft {
+  text-align: left;
+}
+
+.htCenter {
+  text-align: center;
+}
+
+.htRight {
+  text-align: right;
+}
+
+.htJustify {
+  text-align: justify;
+}
+
+/* Vertical alignment */
+.htTop {
+  vertical-align: top;
+}
+
+.htMiddle {
+  vertical-align: middle;
+}
+
+.htBottom {
+  vertical-align: bottom;
+}

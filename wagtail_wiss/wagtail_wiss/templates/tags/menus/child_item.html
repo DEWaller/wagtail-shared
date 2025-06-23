@@ -1,0 +1,9 @@
+{% load wagtailcore_tags %}
+<li>
+    <a href="{{ item.page.url }}">{{ item.page.title }}</a>
+    {% if item.children %}
+    <ul>
+        {% include 'tags/menus/child_items.html' with items=item.children %}
+    </ul>
+    {% endif %}
+</li>

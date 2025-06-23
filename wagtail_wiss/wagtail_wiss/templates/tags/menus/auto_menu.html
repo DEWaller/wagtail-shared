@@ -1,0 +1,57 @@
+{% load static wagtailcore_tags %}
+
+<!--
+	This template renders a responsive navigation menu with language switcher and search links.
+
+	Features:
+	- Hamburger menu toggle for mobile navigation.
+	- Renders a list of menu items from the 'menu_items' context variable.
+		- Highlights the active menu item based on the current request path.
+	- If a 'page' object is provided:
+		- Iterates through all live translations of the page.
+		- For each translation, renders a language switcher link with appropriate hreflang and aria-label.
+		- Conditionally adds a search link for Welsh ("cy") or English ("en") based on the current language code.
+	- Supports additional CSS classes and ARIA labels for accessibility.
+
+	Context variables required:
+	- menu_items: List of menu item objects with 'url' and 'title' attributes.
+	- request_path: The current request path for highlighting the active menu item.
+	- class: Additional CSS classes for the <ul> element.
+	- aria_label: ARIA label for the navigation list.
+	- page: (Optional) The current page object with translations.
+	- request.LANGUAGE_CODE: The current language code for conditional search links.
+-->
+<input type="checkbox" id="menu-toggle" class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+<label for="menu-toggle" class="menu-label">☰</label>
+
+<ul class="navbar-nav {{ class }}" aria-label="{{ aria_label }}">
+	{% for item in menu_items %}
+		<li class="{% if request_path == item.url %}active{% endif %} nav-item">
+			<a href="{{ item.url }}" class="menu-item">{{ item.title }}</a>
+		</li>
+	{% endfor %}
+
+	{% if page %}
+		{% for translation in page.get_translations.live %}
+			<li class="nav-item" data-responsive="mobile">
+				<a href="{% pageurl translation %}"
+				   rel="alternate"
+				   hreflang="{{ translation.locale.language_code }}"
+				   class="menu-item"
+				   aria-label="Switch to {{ translation.locale.language_name_local }}">
+					{{ translation.locale.language_name_local }}
+				</a>
+			</li>
+
+			{% if request.LANGUAGE_CODE == "cy" %}
+				<li class="nav-item" data-responsive="mobile">
+					<a href="/{{ request.LANGUAGE_CODE }}/chwilio">Chwilio</a>
+				</li>
+			{% elif request.LANGUAGE_CODE == "en" %}
+				<li class="nav-item" data-responsive="mobile">
+					<a href="/{{ request.LANGUAGE_CODE }}/search">Search</a>
+				</li>
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+</ul>

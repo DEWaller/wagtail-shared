@@ -1,0 +1,44 @@
+{% load static wagtailcore_tags wagtailuserbar wiss_tags %}
+<header>
+    <div class="banner align-items-center">
+        <!-- Logo Section -->
+        <div class="logo col-8 d-flex align-items-center">
+            <a href="/{{request.LANGUAGE_CODE}}" aria-label="Homepage">
+                <!-- <img src="{% static 'home/img/wbp-logo.gif' %}" alt="logo" class="img-fluid"> -->
+                <img src="https://placehold.co/200x150" alt="logo" class="img-fluid">         
+            </a>
+        </div>
+
+        <!-- Buttons Section -->
+        <div class="col-4 ms-auto d-flex justify-content-end buttons">
+            <div class="d-flex flex-column align-items-end">
+
+                {% if page %}
+                    {% for translation in page.get_translations.live %}
+                        <a href="{% pageurl translation %}" 
+                           rel="alternate"
+                           hreflang="{{ translation.locale.language_code }}"
+                           class="btn btn-iaith my-3 rounded-pill mx-lg-4 bold lang"
+                           aria-label="Switch to {{ translation.locale.language_name_local }}">
+                            {{ translation.locale.language_name_local }}
+                        </a>
+                    {% endfor %}
+                {% endif %}
+                <a class="btn btn-chwilio rounded-pill mx-lg-4 bold" type="button" aria-label="Open search" href="{% if request.LANGUAGE_CODE == "cy" %}/cy/chwilio{% else%}/en/search{% endif %}" >{% if request.LANGUAGE_CODE == "cy" %}Chwilio{% else%}Search{% endif %}</a>
+            </div>
+        </div>
+    </div>
+
+<nav aria-label="{{ aria_label }}">    
+<input type="checkbox" id="menu-toggle" class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+<label for="menu-toggle" class="menu-label">☰</label>
+    {% if request.LANGUAGE_CODE == "cy" %}
+        {% menu 'Primary menu - cy' css_class='primary-menu' aria_label="primary menu" %}
+        {% menu 'Secondary menu - cy' css_class='secondary-menu' aria_label="secondary menu" %}
+    {% elif request.LANGUAGE_CODE == "en" %}
+        {% menu 'Primary menu - en' css_class='primary-menu' aria_label="primary menu"%}
+        {% menu 'Secondary menu - en' css_class='secondary-menu' aria_label="secondary menu"%}
+    {% endif %}
+</nav>
+
+</header>

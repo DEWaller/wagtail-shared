@@ -1,0 +1,36 @@
+<!-- <nav aria-label="{{ aria_label }}"> -->
+    <ul class="navbar-nav {{ class }}" role="menubar">
+        {% for menu_item in menu_items %}
+            <li role="none" class="nav-item {% if request_path == menu_item.page.url %} active{% endif %}">
+                <a class="nav-link" 
+                   role="menuitem"
+                   href="{% if menu_item.page %}{{ menu_item.page.url }}{% else %}{{ menu_item.link_url }}{% endif %}"
+                   {% if request_path == menu_item.page.url %} aria-current="page"{% endif %}
+                   {% if menu_item.link_url %} 
+                       target="_blank" 
+                       aria-label="{% if menu_item.name %}{{ menu_item.name }}{% elif menu_item.page %}{{ menu_item.page.title }}{% endif %} (opens in new tab)" 
+                       rel="noopener noreferrer"
+                   {% endif %}>
+                   {% if menu_item.name %}
+                       {{ menu_item.name }}
+                   {% elif menu_item.page %}
+                       {{ menu_item.page.title }}
+                   {% endif %}
+                </a>
+                {% if menu_item.child_pages %}
+                    <ul class="submenu" role="menu" aria-label="{% if menu_item.name %}{{ menu_item.name }}{% elif menu_item.page %}{{ menu_item.page.title }}{% endif %} submenu">
+                        {% for child_page in menu_item.child_pages %}
+                            <li role="none" class="nav-item me-3">
+                                <a class="nav-link" 
+                                   role="menuitem"
+                                   href="{{ child_page.url }}">
+                                   {{ child_page.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+<!-- </nav> -->

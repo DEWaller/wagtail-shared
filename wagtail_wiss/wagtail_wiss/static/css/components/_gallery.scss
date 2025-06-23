@@ -1,0 +1,93 @@
+.gallery {
+
+    .heading{
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+    .description{
+        text-align: center;
+    }
+    .items {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2px;
+
+        @for $i from 1 through 6 {
+            &.columns-#{$i} {
+                grid-template-columns: repeat(#{$i}, 1fr);
+            }
+        }
+
+        &.columns-0 {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+
+        &.columns-0,
+        &.columns-1,
+        &.columns-2,
+        &.columns-3,
+        &.columns-4,
+        &.columns-5,
+        &.columns-6 {
+            @include media-breakpoint-down(md) {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            @include media-breakpoint-down(sm) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .item {
+           
+
+            position: relative;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between; /* Ensure space between top (image) and bottom (text) */
+            height: 100%; /* Ensure item takes full height of its parent container */
+
+            picture {
+                width: 100%;
+                height:100%;
+                img {
+                    width: 100%;
+                    height:100%;
+                    //max-height: 50vh;
+                    object-fit: cover;
+                    object-position: top;
+                }
+            }
+
+            .text {
+                
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                text-align: center;
+                //height: inherit; /* Ensure text block takes full height of its parent container */
+                margin-top: auto; /* Push the text block to the bottom */
+                p {
+                    margin: 0;
+                    padding: 1rem;
+                }
+            } 
+        }
+
+        &.caption {
+            .item {
+                position: static;
+
+                .text {
+                    position: static;
+                    p {
+                        margin: 0;
+                        padding: 1rem;
+                    }
+                }
+            }
+        }
+    }
+}
