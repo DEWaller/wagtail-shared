@@ -665,14 +665,14 @@ class SingleColumnBlock(blocks.StructBlock):
         template = "blocks/single_column.html"
         label = "Single column"
 
-    def get_context(self, value, parent_context=None):
-        context = super().get_context(value, parent_context)
-        # Add the class name to the context
-        context["block_class"] = "single-column-block"
-        return context
+    # def get_context(self, value, parent_context=None):
+    #     context = super().get_context(value, parent_context)
+    #     # Add the class name to the context
+    #     context["block_class"] = "single-column-block"
+    #     return context
 
-    def __init_subclass__(cls, **kwargs):
-        super().__init_subclass__(**kwargs)
+    # def __init_subclass__(cls, **kwargs):
+    #     super().__init_subclass__(**kwargs)
 
         # from events.blocks import EventsBlock # Lazy import to avoid cicular import
         # from maps.blocks import MapPolygon # Lazy import to avoid cicular import

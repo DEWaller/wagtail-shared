@@ -61,7 +61,6 @@ class HomePage(Page):
             FieldPanel("gallery"),
             FieldPanel("body"),
         ]
-        # + FooterOverrideMixin.footer_panels
     )
 
     def get_sitemap_urls(self, request=None):

@@ -3,9 +3,9 @@
   <div class="row">
     <div class="col-12">
       {% for block in self.column %}
-      <div class="{{block.block_type}}">
-        {% include_block block %}
-      </div>
+        <div class="{{ block.block_type }}">
+          {% include_block block %}
+        </div>
       {% endfor %}
     </div>
   </div>

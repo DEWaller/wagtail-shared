@@ -1,0 +1,23 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="column-header-image-block">
+    <figure>
+        {% image self.image original as header_image %}
+        
+        {% if self.page_link %}
+            <a href="{% pageurl self.page_link %}">
+                <img src="{{ header_image.url }}" alt="{{ self.image.title }}" class="img-fluid">
+            </a>
+        {% elif self.link %}
+            <a href="{{ self.link }}" target="_blank" rel="noopener">
+                <img src="{{ header_image.url }}" alt="{{ self.image.title }}" class="img-fluid">
+            </a>
+        {% else %}
+            <img src="{{ header_image.url }}" alt="{{ self.image.title }}" class="img-fluid">
+        {% endif %}
+
+        {% if self.caption %}
+            <figcaption>{{ self.caption }}</figcaption>
+        {% endif %}
+    </figure>
+</div>
