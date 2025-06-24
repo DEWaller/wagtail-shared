@@ -1,0 +1,12 @@
+{% load wagtailcore_tags %}
+<div class="{{ block_class }}">
+  <div class="row">
+    <div class="col-12">
+      {% for block in self.column %}
+      <div class="{{block.block_type}}">
+        {% include_block block %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

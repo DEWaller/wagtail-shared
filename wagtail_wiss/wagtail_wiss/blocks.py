@@ -17,7 +17,6 @@ from django.template.loader import select_template
 from wagtail import blocks
 from modelcluster.models import ClusterableModel
 
-from maps.blocks import PolygonsBlock
 from wagtail_wiss.pagination.utils import paginate
 
 from wagtail_wiss.snippets.models import Category, Gallery, Menu, News, NewsItem
@@ -35,11 +34,11 @@ from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.templatetags.wagtailcore_tags import richtext
 from wagtail.embeds.blocks import EmbedBlock
 
-from shared_utils.doc_helpers import get_file_marker_html
-from shared_utils.accessibility import ParagraphBlock
+from .shared_utils.doc_helpers import get_file_marker_html
+from .shared_utils.accessibility import ParagraphBlock
 
-from home.utils.style_helpers import get_class_choices_from_scss
-from home.widgets import CaptionWithOCRWidget
+from .shared_utils.style_helpers import get_class_choices_from_scss
+from .widgets import CaptionWithOCRWidget
 
 
 new_table_options = {
@@ -214,29 +213,39 @@ class StyledRichTextBlock(blocks.StructBlock):
         template = "blocks/styled_richtext_block.html"
 
 
-class ContentGridBlockWrapper(blocks.StructBlock):
-    """
-    A wrapper block that allows selecting a Content Grid Block snippet.
+# class ContentGridBlock(ClusterableModel):
+#     title = models.CharField(max_length=255)
 
-    Attributes:
-        content_grid (SnippetChooserBlock): A chooser block for selecting a
-            Content Grid Block snippet. The target model is "home.ContentGridBlock".
-            This field is optional and includes a help text for guidance.
+#     class Meta:
+#         verbose_name_plural = "Text & grid blocks"
 
-    Meta:
-        icon (str): The icon used to represent this block in the Wagtail admin interface.
-        label (str): The display name for this block in the Wagtail admin interface.
-    """
+#     def __str__(self):
+#         return self.title
 
-    content_grid = SnippetChooserBlock(
-        target_model="home.ContentGridBlock",
-        required=False,
-        help_text="Select a Content Grid Block",
-    )
 
-    class Meta:
-        icon = "placeholder"
-        label = "Content Grid block"
+# class ContentGridBlockWrapper(blocks.StructBlock):
+#     """
+#     A wrapper block that allows selecting a Content Grid Block snippet.
+
+#     Attributes:
+#         content_grid (SnippetChooserBlock): A chooser block for selecting a
+#             Content Grid Block snippet. The target model is "home.ContentGridBlock".
+#             This field is optional and includes a help text for guidance.
+
+#     Meta:
+#         icon (str): The icon used to represent this block in the Wagtail admin interface.
+#         label (str): The display name for this block in the Wagtail admin interface.
+#     """
+
+#     content_grid = SnippetChooserBlock(
+#         target_model="blocks.ContentGridBlock",
+#         required=False,
+#         help_text="Select a Content Grid Block",
+#     )
+
+#     class Meta:
+#         icon = "placeholder"
+#         label = "Content Grid block"
 
 
 class HeadingBlock(blocks.CharBlock):

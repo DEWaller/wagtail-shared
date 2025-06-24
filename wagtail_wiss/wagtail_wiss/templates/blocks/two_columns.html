@@ -1,0 +1,26 @@
+{% load wagtailcore_tags %}
+<div class="{{ block_class }} {{ self.css_class }}">
+    <div class="row">
+        {% if self.full_span_header %}
+        <div class="col-md-12 full-span-header">
+            <h2>
+                {{ self.full_span_header }}
+            </h2>
+        </div>
+        {% endif %}
+        <div class="col-md-6 left-column">
+            {% for block in self.left_column %}
+            <div class="{{block.block_type}}">
+                {{ block }}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-6 right-column">
+            {% for block in self.right_column %}
+            <div class="{{block.block_type}}">
+                {{ block }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
