@@ -8,6 +8,8 @@ $primary: #007bff;
 $secondary: #6c757d;
 
 
+
+
 @import "../boostrap/bootstrap.scss";
 
 // Now we can add our custom styles that aren't part of Bootstrap
@@ -16,8 +18,8 @@ $secondary: #6c757d;
 // they are not standalone files and can use mixins etc
 
 @import "../css/components/_mixins.scss";
-@import "../css/_utilities.scss";
 @import "../css/components/_base.scss";
+@import "../css/_utilities.scss";
 @import "../css/components/_header.scss";
 @import "../css/components/_features.scss";
 @import "../css/components/_footer.scss";
@@ -27,19 +29,15 @@ $secondary: #6c757d;
 
 
 
+.container-fluid {
+    &__full-width {
+        padding-right: calc(var(--bs-gutter-x)*0);
+        padding-left: calc(var(--bs-gutter-x)*0);
+    }
+}
 
-// @import "../css/components/_handson_table.scss";
-// @import "../css/components/_skip-to-main-content-link.scss";
-// @import "../css/components/_accessible-colour-palette.scss";
-
-// Generic components (Note: overide these in the page theme file, avoid adding styles to those listed here)
-
-// https://sass-lang.com/documentation/at-rules/mixin/
-
-
-// @import "../css/components/accordion.scss";
-// @import "../css/components/banner.scss";
-// @import "../css/components/content-grid.scss";
-// @import "../css/components/gallery.scss";
-// @import "../css/components/header.scss";
-// @import "../css/components/main-menu.scss";
+.container {
+    &__narrow {
+        max-width: 85ch;
+    }
+}

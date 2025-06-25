@@ -648,8 +648,21 @@ class SimpleContentStreamBlock(ContentStreamBlock):
 
 
 class SingleColumnBlock(blocks.StructBlock):
-    column = ContentStreamBlock()
-
+    
+    container_type = blocks.ChoiceBlock(
+        choices=[
+            ('container', 'Container'),
+            ('container container__narrow', 'Container (narrow)'),
+            ('container-fluid', 'Fluid container'),
+            ('container-fluid container-fluid__full-width', 'Fluid Container (full width)'),
+        ],
+        default='container',
+        label='Container Type',
+        help_text='Choose the Bootstrap container type for this block.'
+    )
+    
+    column = ContentStreamBlock(help_text="Content for the single column block. Choose from the available blocks.")
+    
     class Meta:
         template = "blocks/single_column.html"
         label = "Single column"

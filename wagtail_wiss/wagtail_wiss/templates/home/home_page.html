@@ -15,18 +15,17 @@
   {% endblock %}
   {% block main %}
     <main id="main">
-      <div class="container">
+      
         <h1 class="visuallyhidden">{{ page.title }}</h1>
         <div class="single-column-block header-h1">
           <h2>{{ page.header_h1|linebreak_span|safe }}</h2>
         </div>
-        {% include 'home/includes/_features.html' %}
-        {% include 'home/includes/_album.html' %}
+        {% comment %} {% include 'home/includes/_features.html' %}
+        {% include 'home/includes/_album.html' %} {% endcomment %}
 
         {% for block in page.body %}
           {% include_block block %}
         {% endfor %}
-      </div>
     </main>
   {% endblock %}
   {% block footer %}
