@@ -292,33 +292,22 @@ class CarouselBlock(blocks.StructBlock):
 
 
 class CallToActionBlock(blocks.StructBlock):
-    """
-    A Wagtail StructBlock that represents a "Call to Action" block, allowing users
-    to create a link with customizable text, an optional internal page link, and/or
-    an external URL. Additionally, users can choose to append the title of the
-    linked page to the link text.
+   
 
-    Attributes:
-        text (CharBlock): The text to display for the call to action. This field is required.
-        page (PageChooserBlock): An optional internal page link.
-        use_page_title (BooleanBlock): A boolean flag to determine whether to append
-            the title of the linked page to the link text. Defaults to False.
-        url (URLBlock): An optional external URL.
-
-    Meta:
-        label (str): The display name for the block in the Wagtail editor.
-        icon (str): The icon to represent the block in the Wagtail editor.
-        template (str): The template used to render the block.
-    """
-
-    text = blocks.CharBlock(required=True)
-    page = PageChooserBlock(required=False)  # Internal link
-    use_page_title = blocks.BooleanBlock(
+    title = blocks.CharBlock(required=True)
+    body = blocks.RichTextBlock(required=False, features=RICH_TEXT_FEATURES)
+    page_link = PageChooserBlock(required=False)  # Internal link
+    # use_page_title = blocks.BooleanBlock(
+    #     required=False,
+    #     default=False,
+    #     help_text="Append the title of the linked page to the link text.",
+    # )
+    link_url = blocks.URLBlock(required=False)
+    button_text = blocks.CharBlock(
         required=False,
-        default=False,
-        help_text="Append the title of the linked page to the link text.",
+        max_length=50,
+        help_text="Text for the call-to-action button. If not provided, defaults to 'Learn more'.",
     )
-    url = blocks.URLBlock(required=False)
 
     class Meta:
         label = "Call to Action"

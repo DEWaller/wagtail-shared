@@ -1,0 +1,20 @@
+.skip-to-main-content-link {
+    position: absolute;
+    left: -9999px;
+    z-index: 999;
+    padding: 1rem;
+    background-color: black;
+    color: white;
+    border:none;
+
+    &:hover {
+        color: rgb(174, 174, 176);
+        border:none;
+    }
+
+    &:focus {
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 1;
+    }
+}

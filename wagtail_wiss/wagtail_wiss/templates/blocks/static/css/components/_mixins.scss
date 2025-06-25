@@ -1,0 +1,70 @@
+// Define a mixin for the reusable component
+// Arguments are passed to the mixin to allow for customisation
+// The default values are used if no arguments are passed
+@mixin anchor-styles($text-colour, $hover-colour, $hover-decoration-colour: transparent) {
+    color: $text-colour;
+    font-family: "Signika Light", sans-serif;
+    text-decoration: none;
+    font-size: 18px;
+    border-bottom: solid 2px transparent;
+    transition:
+        color 0.3s ease,
+        text-decoration 0.3s ease;
+
+    &:hover {
+        color: $hover-colour;
+        border-bottom: solid 2px $hover-decoration-colour;
+    }
+}
+
+// Define a mixin for the reusable component
+// Arguments are passed to the mixin to allow for customisation
+// The default values are used if no arguments are passed
+@mixin hoverable-title($text-color: hsl(0, 0%, 100%),
+    $bg-color: hsla(0, 0%, 7%, 0.6),
+    $hover-bg: rgba(17, 17, 17, 0.95),
+    $link-hover-color: hsl(62, 61%, 42%),
+    $font-size: 1.2rem) {
+    color: $text-color;
+    background-color: $bg-color;
+    width: 100%;
+
+    &.hoverable {
+
+        a {
+            border-bottom: 2px solid transparent;
+            //font-size: $font-size;
+            font-size: 1.2rem;
+
+            &:hover {
+                border-bottom: 2px solid $link-hover-color;
+                cursor: pointer;
+            }
+
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+        }
+
+        &:hover {
+            background-color: $hover-bg;
+        }
+    }
+}
+
+
+@mixin amber-wheat-list-marker {
+    ul {
+        text-decoration: none;
+        list-style: none;
+        text-wrap-style: pretty;
+        margin-left: 1.3em;
+        padding: 0;
+
+        li {
+            &::marker {
+                color: $nrw-colour-amber-wheat;
+                content: "▶  ";
+            }
+        }
+    }
+}

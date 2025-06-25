@@ -1,0 +1,30 @@
+{% load wagtailcore_tags %}
+<div class="call-to-action">
+  {% if self.page %}
+    <a href="{{ self.page.url }}" class="call-to-action__link" target="_self">
+      {% if self.use_page_title %}
+        {{ self.title }} {{ self.page.title }}
+      {% else %}
+        {{ self.text }}
+      {% endif %}
+    </a>
+  {% elif self.url %}
+    <a href="{{ self.url }}" class="call-to-action__link" target="_blank" rel="noopener noreferrer">{{ self.text }}</a>
+  {% endif %}
+</div>
+
+<div class="jumbotron">
+  <div class="jumbotron__container">
+    <h1 class="jumbotron__title">{{ self.title}}</h1>
+    <p class="jumbotron__text">
+      {{ self.body }}
+    </p>
+    {% if self.page_link %}
+        <a href="{% pageurl self.page_url }}" class="jumbotron__button call-to-action__link" type="button" target="_blank" rel="noopener noreferrer">{{ self.button_text }}</a>
+    {% elif self.link_url %}
+        <a href="{{ self.link_url }}" class="jumbotron__button call-to-action__link" type="button" target="_blank" rel="noopener noreferrer">{{ self.button_text }}</a>
+    {% endif %}
+
+  </div>
+</div>
+
